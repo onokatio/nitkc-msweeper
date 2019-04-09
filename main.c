@@ -18,6 +18,10 @@ int main(void){
 
 	setRandom(ms);
 
+	//dump(ms);
+
+	setNumber(ms);
+
 	dump(ms);
 
 }
@@ -60,13 +64,23 @@ void setNumber(int ms[sizeX][sizeY]){
 	int i,j;
 	for(i=0;i<sizeX;i++){
 		for(j=0;j<sizeY;j++){
-			printf("%d ",ms[i][j]);
+			if(ms[i][j] != -1) ms[i][j] = getHereNum(i,j,ms);
 		}
-		printf("\n");
 	}
 }
 
-void getHereNum(int x,int y, int ms[sizeX][sizeY]){
-	int count;
-	if(x != 0) if(ms[xLeft][y])
+int getHereNum(int x,int y, int ms[sizeX][sizeY]){
+	int count = 0;
+
+	if(x != 0)         if(ms[xLeft][y]   == -1) count++;
+	if(x != sizeX - 1) if(ms[xRight][y]  == -1) count++;
+	if(y != 0)         if(ms[x][yTop]    == -1) count++;
+	if(y != sizeY - 1) if(ms[x][yBottom] == -1) count++;
+
+	if(x != 0         && y != 0)         if(ms[xLeft][yTop]     == -1) count++;
+	if(x != sizeY - 1 && y != 0)         if(ms[xRight][yTop]    == -1) count++;
+	if(x != 0         && y != sizeY - 1) if(ms[xLeft][yTop]     == -1) count++;
+	if(x != sizeY - 1 && y != sizeY - 1) if(ms[xRight][yBottom] == -1) count++;
+
+	return count;
 }
