@@ -24,6 +24,10 @@ int main(void){
 
 	dump(ms);
 
+	start(ms);
+
+	return 0;
+
 }
 void init(int ms[sizeX][sizeY]){
 	int i,j;
@@ -52,8 +56,8 @@ void setRandom(int ms[sizeX][sizeY]){
 
 void dump(int ms[sizeX][sizeY]){
 	int i,j;
-	for(i=0;i<sizeX;i++){
-		for(j=0;j<sizeY;j++){
+	for(j=0;j<sizeY;j++){
+		for(i=0;i<sizeX;i++){
 			printf("%d ",ms[i][j]);
 		}
 		printf("\n");
@@ -83,4 +87,17 @@ int getHereNum(int x,int y, int ms[sizeX][sizeY]){
 	if(x != sizeY - 1 && y != sizeY - 1) if(ms[xRight][yBottom] == -1) count++;
 
 	return count;
+}
+
+void prompt(int *x,int *y){
+	printf("input (x y) ");
+	scanf("%d %d",x,y);
+}
+
+int start(int ms[sizeX][sizeY]){
+	int inputX,inputY;
+
+	prompt(&inputX,&inputY);
+
+	printf("ms[%d][%d] = %d",inputX,inputY, ms[inputX][inputY]);
 }
