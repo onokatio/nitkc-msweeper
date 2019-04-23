@@ -5,11 +5,6 @@
 #define sizeY 10
 #define mineNum 10
 
-#define xRight x+1
-#define xLeft x-1
-#define yTop y-1
-#define yBottom y+1
-
 int main(void){
 
 	int ms[sizeX][sizeY];
@@ -25,6 +20,8 @@ int main(void){
 	setNumber(ms);
 
 	dump(ms);
+	
+	printf("\n");
 
 	start(ms,isOpen);
 
@@ -75,18 +72,18 @@ void setNumber(int ms[sizeX][sizeY]){
 	}
 }
 
-int getHereNum(int x,int y, int ms[sizeX][sizeY]){
+int getHereNum(int inputX,int inputY, int ms[sizeX][sizeY]){
 	int count = 0;
 
-	if(x != 0)         if(ms[xLeft][y]   == -1) count++;
-	if(x != sizeX - 1) if(ms[xRight][y]  == -1) count++;
-	if(y != 0)         if(ms[x][yTop]    == -1) count++;
-	if(y != sizeY - 1) if(ms[x][yBottom] == -1) count++;
+	if(inputX != 0)         if(ms[inputX-1][inputY]   == -1) count++;
+	if(inputX != sizeX - 1) if(ms[inputX+1][inputY]  == -1) count++;
+	if(inputY != 0)         if(ms[inputX][inputY-1]    == -1) count++;
+	if(inputY != sizeY - 1) if(ms[inputX][inputY+1] == -1) count++;
 
-	if(x != 0         && y != 0)         if(ms[xLeft][yTop]     == -1) count++;
-	if(x != sizeY - 1 && y != 0)         if(ms[xRight][yTop]    == -1) count++;
-	if(x != 0         && y != sizeY - 1) if(ms[xLeft][yTop]     == -1) count++;
-	if(x != sizeY - 1 && y != sizeY - 1) if(ms[xRight][yBottom] == -1) count++;
+	if(inputX != 0         && inputY != 0)         if(ms[inputX-1][inputY-1]     == -1) count++;
+	if(inputX != sizeY - 1 && inputY != 0)         if(ms[inputX+1][inputY-1]    == -1) count++;
+	if(inputX != 0         && inputY != sizeY - 1) if(ms[inputX-1][inputY-1]     == -1) count++;
+	if(inputX != sizeY - 1 && inputY != sizeY - 1) if(ms[inputX+1][inputY+1] == -1) count++;
 
 	return count;
 }
@@ -98,25 +95,43 @@ void prompt(int *x,int *y){
 
 void show(int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
 	int i,j;
+	printf("    ");
+	for(i=0;i<sizeX;i++){
+		printf("%d ",i);
+	}
+	printf("\n");
+	printf("   ┌");
+	for(i=0;i<sizeX;i++){
+		printf("──",i);
+	}
+	printf("┐\n");
 	for(j=0;j<sizeY;j++){
+		printf("%d  │",j);
 		for(i=0;i<sizeX;i++){
 			if(isOpen[i][j] == 1){
 				if(ms[i][j] == -1){
-					printf("%d",ms[i][j]);
-				}else{
 					printf("M");
+				}else if(ms[i][j] == 0){
+					printf(" ");
+				}else{
+					printf("%d",ms[i][j]);
 				}
 			}else{
-				printf("*");
+				printf("■");
 			}
 			printf(" ");
 		}
-		printf("\n");
+		printf("│\n");
 	}
+	printf("   └");
+	for(i=0;i<sizeX;i++){
+		printf("──",i);
+	}
+	printf("┘\n");
 }
 
-int calcFail(int inputX, inputY, int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
-	if(isOpen[inputX][inputY] ==1) return 2;
+int calcFail(int inputX, int inputY, int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
+	if(isOpen[inputX][inputY] == 1) return 2;
 
 	if(ms[inputX][inputY] == -1){
 		return 1;
@@ -125,16 +140,25 @@ int calcFail(int inputX, inputY, int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
 	return 0;
 }
 
-int calcOpen(int inputX, inputY, int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
-	if(x != 0)         if(ms[xLeft][y]   == -1) count++;
-	if(x != sizeX - 1) if(ms[xRight][y]  == -1) count++;
-	if(y != 0)         if(ms[x][yTop]    == -1) count++;
-	if(y != sizeY - 1) if(ms[x][yBottom] == -1) count++;
+int calcAutoOpen(int inputX, int inputY, int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
+	int i,j;
 
-	if(x != 0         && y != 0)         if(ms[xLeft][yTop]     == -1) count++;
-	if(x != sizeY - 1 && y != 0)         if(ms[xRight][yTop]    == -1) count++;
-	if(x != 0         && y != sizeY - 1) if(ms[xLeft][yTop]     == -1) count++;
-	if(x != sizeY - 1 && y != sizeY - 1) if(ms[xRight][yBottom] == -1) count++;
+	for(j=0;j<sizeY;j++){
+		for(i=0;i<sizeX;i++){
+			if(ms[i][j] == 0){
+			}
+		}
+	}
+	int count = 0;
+	if(inputX != 0)         if(ms[inputX-1][inputY]   == -1) count++;
+	if(inputX != sizeX - 1) if(ms[inputX+1][inputY]  == -1) count++;
+	if(inputY != 0)         if(ms[inputX][inputY-1]    == -1) count++;
+	if(inputY != sizeY - 1) if(ms[inputX][inputY+1] == -1) count++;
+
+	if(inputX != 0         && inputY != 0)         if(ms[inputX-1][inputY-1]     == -1) count++;
+	if(inputX != sizeY - 1 && inputY != 0)         if(ms[inputX+1][inputY-1]    == -1) count++;
+	if(inputX != 0         && inputY != sizeY - 1) if(ms[inputX-1][inputY-1]     == -1) count++;
+	if(inputX != sizeY - 1 && inputY != sizeY - 1) if(ms[inputX+1][inputY+1] == -1) count++;
 }
 
 void start(int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
@@ -151,12 +175,15 @@ void start(int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
 		failReturn = calcFail(inputX, inputY, ms, isOpen);
 
 		if(failReturn == 1){
+			isOpen[inputX][inputY] = 1;
+			show(ms,isOpen);
+			printf("\n == Game Over. == \n");
 			loop = 0;
-		}else if(calcReturn == 2){
-			printf("The position is already opened.");
+		}else if(failReturn == 2){
+			printf("\n == The position is already opened. == \n");
 		}else{
-			isOpen[inputX][inputY] = 0;
-			calcOpen(inputX, inputY, ms,isOpen);
+			isOpen[inputX][inputY] = 1;
+			calcAutoOpen(inputX, inputY, ms,isOpen);
 		}
 	}
 }
