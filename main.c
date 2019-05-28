@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define sizeX 10
 #define sizeY 10
 #define mineNum 10
+
+void init(int ms[sizeX][sizeY]);
+void setRandom(int ms[sizeX][sizeY]);
+void dump(int ms[sizeX][sizeY]);
+void setNumber(int ms[sizeX][sizeY]);
+int getHereNum(int inputX,int inputY, int ms[sizeX][sizeY]);
+void start(int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]);
 
 int main(void){
 
@@ -19,7 +27,7 @@ int main(void){
 
 	setNumber(ms);
 
-	dump(ms);
+	//dump(ms);
 	
 	printf("\n");
 
@@ -29,7 +37,8 @@ int main(void){
 
 }
 void init(int ms[sizeX][sizeY]){
-	int i,j;
+	int i;
+	int j;
 	srand((unsigned)time(NULL));
 
 	for(i=0;i<sizeX;i++){
@@ -40,7 +49,8 @@ void init(int ms[sizeX][sizeY]){
 }
 
 void setRandom(int ms[sizeX][sizeY]){
-	int randX,randY;
+	int randX;
+	int randY;
 	int i;
 	i = 0;
 	while(i<mineNum){
@@ -54,7 +64,8 @@ void setRandom(int ms[sizeX][sizeY]){
 }
 
 void dump(int ms[sizeX][sizeY]){
-	int i,j;
+	int i;
+	int j;
 	for(j=0;j<sizeY;j++){
 		for(i=0;i<sizeX;i++){
 			printf("%d ",ms[i][j]);
@@ -64,10 +75,11 @@ void dump(int ms[sizeX][sizeY]){
 }
 
 void setNumber(int ms[sizeX][sizeY]){
-	int i,j;
+	int i;
+	int j;
 	for(i=0;i<sizeX;i++){
 		for(j=0;j<sizeY;j++){
-			if(ms[i][j] != -1) ms[i][j] = getHereNum(i,j,ms);
+			if(ms[i][j] != -1){ ms[i][j] = getHereNum(i,j,ms); };
 		}
 	}
 }
@@ -94,7 +106,8 @@ void prompt(int *x,int *y){
 }
 
 void show(int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
-	int i,j;
+	int i;
+	int j;
 	printf("    ");
 	for(i=0;i<sizeX;i++){
 		printf("%d ",i);
@@ -141,7 +154,8 @@ int calcFail(int inputX, int inputY, int ms[sizeX][sizeY],int isOpen[sizeX][size
 }
 
 int calcAutoOpen(int inputX, int inputY, int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
-	int i,j;
+	int i;
+	int j;
 
 	for(j=0;j<sizeY;j++){
 		for(i=0;i<sizeX;i++){
@@ -162,7 +176,8 @@ int calcAutoOpen(int inputX, int inputY, int ms[sizeX][sizeY],int isOpen[sizeX][
 }
 
 void start(int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
-	int inputX,inputY;
+	int inputX;
+	int inputY;
 	int loop = 1;
 	int failReturn;
 
