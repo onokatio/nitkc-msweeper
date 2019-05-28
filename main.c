@@ -185,7 +185,10 @@ void start(int ms[sizeX][sizeY],int isOpen[sizeX][sizeY]){
 		show(ms,isOpen);
 
 		prompt(&inputX,&inputY);
-		//printf("ms[%d][%d] = %d",inputX,inputY, ms[inputX][inputY]);
+		if(inputX > sizeX-1 || inputY > sizeY-1){
+			printf("Input Value is invalid.");
+			break;
+		}
 
 		failReturn = calcFail(inputX, inputY, ms, isOpen);
 
